@@ -69,7 +69,8 @@ class AudioTranscriber:
             with open("tmp.wav", "rb") as audio_file:
                 response = self.openai.audio.transcriptions.create(
                     model=self.model_name,
-                    file=audio_file
+                    file=audio_file,
+                    language='zh'
                 )
             print(response.text)
             return response.text
