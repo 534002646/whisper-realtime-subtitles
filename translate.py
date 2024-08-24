@@ -6,10 +6,11 @@ import threading
 import queue
 import pyaudio
 import wave
+import logging
 
 rate = 16000  # 采样率/Hz
-channels = 2
-buffer_size = 140960
+channels = 1
+buffer_size = 40960
 
 class AudioCapture:
     def __init__(self, device_index=None):
@@ -51,7 +52,7 @@ class AudioCapture:
 
 
 class AudioTranscriber:
-    def __init__(self, model_name="Systran/faster-distil-whisper-large-v3", api_key="", api_url="http://home.dogegg.online:8000/v1/"):
+    def __init__(self, model_name="Systran/faster-distil-whisper-large-v3", api_key="cant-be-empty", api_url="http://192.168.1.2:8000/v1/"):
         self.model_name = model_name
         self.api_key = api_key
         self.api_url = api_url
@@ -75,7 +76,7 @@ class AudioTranscriber:
             print(response.text)
             return response.text
         except Exception as e:
-            print(f"转录音频时发生错误: {e}")
+            logging.exception(e)
             return "获取字幕失败"
         
 class SubtitleApp:
